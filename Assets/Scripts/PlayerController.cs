@@ -6,34 +6,42 @@ public class PlayerController : MonoBehaviour
 {
     public float horizontalInput;
     public float verticalInput;
-    public float speed = 35.0f;
-    public float jumpSpeed = 150.0f;
+    public float speed = 10.0f;
     public float leftRange = -13.00f;
-    private float lowRange = -0.1f;
+    public float rightRange = 180.00f;
     public GameObject projectilePrefab;
-    Rigidbody m_Rigidbody;
+    private Rigidbody playerRb;
+    public float jumpForce;
+    public float gravityModifier;
+    public bool isOnGround = true;
 
     // Start is called before the first frame update
     void Start()
     {
-        m_Rigidbody = GetComponent<Rigidbody>();
-
+        playerRb = GetComponent<Rigidbody>();
+        Physics.gravity *= gravityModifier;
     }
 
     // Update is called once per frame
     void Update()
     {
-        Vector3 m_Input = new Vector3(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"), 0);
-        m_Rigidbody.MovePosition(transform.position + m_Input * Time.deltaTime * jumpSpeed);
+        horizontalInput = Input.GetAxis("Horizontal");
+        transform.Translate(Vector3.right * Time.deltaTime * speed * horizontalInput);
+
+        if (Input.GetKeyDown(KeyCode.UpArrow) && isOnGround)
+        {
+            playerRb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+            isOnGround = false;
+        }
 
         if (transform.position.x < leftRange)
         {
             transform.position = new Vector3(leftRange, transform.position.y, transform.position.z);
         }
 
-        if (transform.position.y < lowRange)
+        if (transform.position.x > rightRange)
         {
-            transform.position = new Vector3(transform.position.x, lowRange, transform.position.z);
+            transform.position = new Vector3(rightRange, transform.position.y, transform.position.z);
         }
 
         if (Input.GetKeyDown(KeyCode.Space))
@@ -41,5 +49,11 @@ public class PlayerController : MonoBehaviour
 
             Instantiate(projectilePrefab, (transform.position + new Vector3 (1.62f, -0.2848748f, 0)), projectilePrefab.transform.rotation);
         }
+
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        isOnGround = true;
     }
 }
