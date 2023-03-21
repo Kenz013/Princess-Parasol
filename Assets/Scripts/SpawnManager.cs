@@ -5,14 +5,20 @@ using UnityEngine;
 public class SpawnManager : MonoBehaviour
 {
     public GameObject ghostPrefab;
-    private float spawnRangeX = 180.0f;
-    private float spawnInterval = 3.5f;
+    private float spawnRangeX = 315.0f;
+    private float spawnInterval = 2;
     private float startDelay = 1;
 
     // Start is called before the first frame update
     void Start()
     {
-        InvokeRepeating("SpawnGhost", startDelay, spawnInterval);
+        // Prevents ghosts from spawning at the location of the player or in an island
+
+        if (!CompareTag("Player") && !CompareTag("Island"))
+        {
+            InvokeRepeating("SpawnGhost", startDelay, spawnInterval);
+        }
+        
     }
 
     // Update is called once per frame

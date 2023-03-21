@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 3765420499880548043}
   m_Layer: 0
   m_Name: Princess Parasol Ghost 256
-  m_TagString: Untagged
+  m_TagString: Ghost
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -113,7 +113,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c33bb7878fa03a849afa8b1fc3e9a66b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bulletPrefab: {fileID: 39648962722631025, guid: 5c7b72af071232546adaa00c0d33a962, type: 3}
 --- !u!65 &466206126861913817
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -125,8 +124,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.4398216, y: 1.772657, z: 0.2}
-  m_Center: {x: 0.055473015, y: 0.049257983, z: 0}
+  m_Size: {x: 1.4398216, y: 1.6481026, z: 0.2}
+  m_Center: {x: 0.055473015, y: 0.04925809, z: 0}
 --- !u!114 &3765420499880548043
 MonoBehaviour:
   m_ObjectHideFlags: 0
