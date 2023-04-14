@@ -7,7 +7,7 @@ public class PlayerController : MonoBehaviour
     public float horizontalInput;
     public float speed = 10.0f;
     public float leftRange = -13.00f;
-    public float rightRange = 360.00f;
+    public float rightRange = 430;
     public GameObject projectilePrefab;
     public GameObject leftProjectilePrefab;
     private Rigidbody playerRb;

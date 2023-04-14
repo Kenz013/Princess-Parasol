@@ -5,9 +5,9 @@ using UnityEngine;
 public class SpawnManager : MonoBehaviour
 {
     public GameObject ghostPrefab;
-    private float spawnRangeX = 315.0f;
-    private float spawnInterval = 2;
-    private float startDelay = 1;
+    private float spawnRangeX = 430.0f;
+    private float spawnInterval = 1.5f;
+    private float startDelay = 0.5f;
 
     // Start is called before the first frame update
     void Start()
