@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour
     public GameObject titleScreen;
     public GameObject musicBox;
     public Button startButton;
+    public GameObject spawnManager;
 
     // Start is called before the first frame update
     void Start()
@@ -24,6 +25,7 @@ public class GameManager : MonoBehaviour
         isGameActive = true;
         titleScreen.gameObject.SetActive(false);
         musicBox.gameObject.SetActive(true);
+        spawnManager.gameObject.SetActive(true);
     }
 
     // Update is called once per frame
