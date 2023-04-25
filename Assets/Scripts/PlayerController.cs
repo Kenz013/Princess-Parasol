@@ -91,11 +91,28 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    // Damages the player when colliding with a ghost & tracks gems collected
+
     public void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Ghost"))
         {
             gameManager.DamagePlayer();
+        }
+
+        if (other.CompareTag("Ruby"))
+        {
+            gameManager.RubyTracker();
+        }
+
+        if (other.CompareTag("Emerald"))
+        {
+            gameManager.EmeraldTracker();
+        }
+
+        if (other.CompareTag("Sapphire"))
+        {
+            gameManager.SapphireTracker();
         }
     }
 }

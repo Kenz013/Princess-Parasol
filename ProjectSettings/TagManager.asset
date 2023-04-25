@@ -8,6 +8,9 @@ TagManager:
   - Ghost
   - Island
   - Ground
+  - Ruby
+  - Emerald
+  - Sapphire
   layers:
   - Default
   - TransparentFX

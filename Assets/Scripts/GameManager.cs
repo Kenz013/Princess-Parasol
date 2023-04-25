@@ -18,6 +18,12 @@ public class GameManager : MonoBehaviour
     public Image[] hearts;
     public Sprite fullHeart;
     public Sprite emptyHeart;
+    private int ruby;
+    private int emerald;
+    private int sapphire;
+    public TextMeshProUGUI rubyText;
+    public TextMeshProUGUI emeraldText;
+    public TextMeshProUGUI sapphireText;
 
     // Start is called before the first frame update
     void Start()
@@ -31,6 +37,9 @@ public class GameManager : MonoBehaviour
         titleScreen.gameObject.SetActive(false);
         musicBox.gameObject.SetActive(true);
         spawnManager.gameObject.SetActive(true);
+        ruby = 0;
+        emerald = 0;
+        sapphire = 0;
     }
 
     // Update is called once per frame
@@ -68,5 +77,23 @@ public class GameManager : MonoBehaviour
     public void DamagePlayer()
     {
         health -= 1;
+    }
+
+    public void RubyTracker()
+    {
+        ruby += 1;
+        rubyText.text = ": " + ruby;
+    }
+
+    public void EmeraldTracker()
+    {
+        emerald += 1;
+        emeraldText.text = ": " + emerald;
+    }
+
+    public void SapphireTracker()
+    {
+        sapphire += 1;
+        sapphireText.text = ": " + sapphire;
     }
 }
