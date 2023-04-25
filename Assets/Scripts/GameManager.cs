@@ -13,6 +13,11 @@ public class GameManager : MonoBehaviour
     public GameObject musicBox;
     public Button startButton;
     public GameObject spawnManager;
+    public int health;
+    public int numOfHearts;
+    public Image[] hearts;
+    public Sprite fullHeart;
+    public Sprite emptyHeart;
 
     // Start is called before the first frame update
     void Start()
@@ -31,7 +36,37 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (health > numOfHearts)
+        {
+            health = numOfHearts;
+        }
+
+        for (int i = 0; i < hearts.Length; i++)
+        {
+            if (i < health)
+            {
+                hearts[i].sprite = fullHeart;
+            }
+
+            else
+            {
+                hearts[i].sprite = emptyHeart;
+            }
+
+            if (i < numOfHearts)
+            {
+                hearts[i].enabled = true;
+            }
+
+            else
+            {
+                hearts[i].enabled = false;
+            }
+        }
     }
 
+    public void DamagePlayer()
+    {
+        health -= 1;
+    }
 }

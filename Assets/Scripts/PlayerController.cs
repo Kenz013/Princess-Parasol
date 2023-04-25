@@ -15,6 +15,7 @@ public class PlayerController : MonoBehaviour
     public float gravityModifier;
     public bool isOnGround = true;
     SpriteRenderer spi;
+    private GameManager gameManager;
 
     // Start is called before the first frame update
     void Start()
@@ -22,6 +23,7 @@ public class PlayerController : MonoBehaviour
         playerRb = GetComponent<Rigidbody>();
         Physics.gravity *= gravityModifier;
         spi = GetComponent<SpriteRenderer>();
+        gameManager = GameObject.Find("Game Manager").GetComponent<GameManager>();
     }
 
     // Update is called once per frame
@@ -80,8 +82,20 @@ public class PlayerController : MonoBehaviour
 
     // Assists in preventing the player from double jumping
 
-    private void OnCollisionEnter(Collision collision)
+    public void OnCollisionEnter(Collision collision)
     {
-        isOnGround = true;
+
+        if (collision.gameObject.CompareTag("Island") || collision.gameObject.CompareTag("Ground"))
+        {
+            isOnGround = true;
+        }
+    }
+
+    public void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Ghost"))
+        {
+            gameManager.DamagePlayer();
+        }
     }
 }
