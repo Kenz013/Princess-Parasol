@@ -16,6 +16,8 @@ public class PlayerController : MonoBehaviour
     public bool isOnGround = true;
     SpriteRenderer spi;
     private GameManager gameManager;
+    private Animator playerAnim;
+    public int pointValue;
 
     // Start is called before the first frame update
     void Start()
@@ -24,15 +26,18 @@ public class PlayerController : MonoBehaviour
         Physics.gravity *= gravityModifier;
         spi = GetComponent<SpriteRenderer>();
         gameManager = GameObject.Find("Game Manager").GetComponent<GameManager>();
+        playerAnim = GetComponent<Animator>();
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        // Allows player to jump (but not double jump), as well as move left and right & flips the sprite respectively
 
         horizontalInput = Input.GetAxis("Horizontal");
         transform.Translate(Vector3.right * Time.deltaTime * speed * horizontalInput);
+
+        // Allows player to jump (but not double jump), as well as move left and right & flips the sprite respectively
 
         if (Input.GetKeyDown(KeyCode.UpArrow) && isOnGround)
         {
@@ -44,10 +49,26 @@ public class PlayerController : MonoBehaviour
         {
             spi.flipX = true;
         }
-
+ 
         if (Input.GetKeyDown(KeyCode.RightArrow))
         {
             spi.flipX = false;
+        }
+
+        // Plays walking animation
+
+        if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.LeftArrow))
+        {
+            if (isOnGround)
+            {
+                playerAnim.SetFloat("speed", 1);
+            }
+            
+        }
+
+        else
+        {
+            playerAnim.SetFloat("speed", 0);
         }
 
         // Prevents player from moving out of bounds left or right
@@ -102,17 +123,18 @@ public class PlayerController : MonoBehaviour
 
         if (other.CompareTag("Ruby"))
         {
-            gameManager.RubyTracker();
+            gameManager.RubyTracker(pointValue);
         }
 
         if (other.CompareTag("Emerald"))
         {
-            gameManager.EmeraldTracker();
+            gameManager.EmeraldTracker(pointValue);
         }
 
         if (other.CompareTag("Sapphire"))
         {
-            gameManager.SapphireTracker();
+            gameManager.SapphireTracker(pointValue);
         }
     }
+
 }

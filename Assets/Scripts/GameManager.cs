@@ -24,6 +24,8 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI rubyText;
     public TextMeshProUGUI emeraldText;
     public TextMeshProUGUI sapphireText;
+    public Button restartButton;
+    public GameObject gameOverScreen;
 
     // Start is called before the first frame update
     void Start()
@@ -37,14 +39,20 @@ public class GameManager : MonoBehaviour
         titleScreen.gameObject.SetActive(false);
         musicBox.gameObject.SetActive(true);
         spawnManager.gameObject.SetActive(true);
+        gameOverScreen.gameObject.SetActive(false);
         ruby = 0;
         emerald = 0;
         sapphire = 0;
+        RubyTracker(0);
+        EmeraldTracker(0);
+        SapphireTracker(0);
     }
 
     // Update is called once per frame
     void Update()
     {
+        // Tracks health
+
         if (health > numOfHearts)
         {
             health = numOfHearts;
@@ -72,28 +80,55 @@ public class GameManager : MonoBehaviour
                 hearts[i].enabled = false;
             }
         }
+
+        // Ends game when health runs out
+
+        if (health == 0)
+        {
+            GameOver();
+        }
     }
+
+    // Damages the player
 
     public void DamagePlayer()
     {
         health -= 1;
     }
 
-    public void RubyTracker()
+    // Tracks the gems
+
+    public void RubyTracker(int gemCount)
     {
-        ruby += 1;
+        ruby += gemCount;
         rubyText.text = ": " + ruby;
     }
 
-    public void EmeraldTracker()
+    public void EmeraldTracker(int gemCount)
     {
-        emerald += 1;
+        emerald += gemCount;
         emeraldText.text = ": " + emerald;
     }
 
-    public void SapphireTracker()
+    public void SapphireTracker(int gemCount)
     {
-        sapphire += 1;
+        sapphire += gemCount;
         sapphireText.text = ": " + sapphire;
+    }
+
+    // Restarts the game
+
+    public void RestartGame()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    // Activates the game over screen
+
+    public void GameOver()
+    {
+        isGameActive = false;
+        gameOverScreen.gameObject.SetActive(true);
+        restartButton.gameObject.SetActive(true);
     }
 }
