@@ -24,7 +24,7 @@ public class PlayerController : MonoBehaviour
     {
         playerRb = GetComponent<Rigidbody>();
         Physics.gravity *= gravityModifier;
-        spi = GetComponent<SpriteRenderer>();
+        spi = gameObject.GetComponent<SpriteRenderer>();
         gameManager = GameObject.Find("Game Manager").GetComponent<GameManager>();
         playerAnim = GetComponent<Animator>();
 
@@ -61,14 +61,14 @@ public class PlayerController : MonoBehaviour
         {
             if (isOnGround)
             {
-                playerAnim.SetFloat("speed", 1);
+                playerAnim.SetFloat("speed", 2);
             }
             
         }
 
         else
         {
-            playerAnim.SetFloat("speed", 0);
+            playerAnim.SetFloat("speed", 1);
         }
 
         // Prevents player from moving out of bounds left or right
@@ -99,6 +99,11 @@ public class PlayerController : MonoBehaviour
 
         }
 
+        if (!isOnGround)
+        {
+            playerAnim.SetFloat("speed", 0);
+        }
+
     }
 
     // Assists in preventing the player from double jumping
@@ -109,6 +114,11 @@ public class PlayerController : MonoBehaviour
         if (collision.gameObject.CompareTag("Island") || collision.gameObject.CompareTag("Ground"))
         {
             isOnGround = true;
+        }
+
+        else
+        {
+            isOnGround = false;
         }
     }
 
@@ -136,5 +146,4 @@ public class PlayerController : MonoBehaviour
             gameManager.SapphireTracker(pointValue);
         }
     }
-
 }
