@@ -26,6 +26,10 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI sapphireText;
     public Button restartButton;
     public GameObject gameOverScreen;
+    public GameObject pauseScreen;
+    private bool paused;
+    private bool inventoryUp;
+    public GameObject inventoryScreen;
 
     // Start is called before the first frame update
     void Start()
@@ -79,6 +83,16 @@ public class GameManager : MonoBehaviour
             {
                 hearts[i].enabled = false;
             }
+
+            if (Input.GetKeyDown(KeyCode.P) && isGameActive)
+            {
+                ChangePaused();
+            }
+
+            if (Input.GetKeyDown(KeyCode.I) && isGameActive)
+            {
+                InventoryActive();
+            }
         }
 
         // Ends game when health runs out
@@ -130,5 +144,47 @@ public class GameManager : MonoBehaviour
         isGameActive = false;
         gameOverScreen.gameObject.SetActive(true);
         restartButton.gameObject.SetActive(true);
+        musicBox.gameObject.SetActive(false);
+    }
+
+    // Activates the pause screen
+
+    public void ChangePaused()
+    {
+        if (!paused)
+        {
+            paused = true;
+            pauseScreen.SetActive(true);
+            Time.timeScale = 0;
+
+        }
+
+        else
+        {
+            paused = false;
+            pauseScreen.SetActive(false);
+            Time.timeScale = 1;
+            musicBox.gameObject.SetActive(true);
+
+        }
+    }
+
+    // Activates the Inventory Screen
+
+    public void InventoryActive()
+    {
+        if (!inventoryUp)
+        {
+            inventoryUp = true;
+            inventoryScreen.SetActive(true);
+            Time.timeScale = 0;
+        }
+
+        else 
+        {
+            inventoryUp = false;
+            inventoryScreen.SetActive(false);
+            Time.timeScale = 1;
+        }
     }
 }

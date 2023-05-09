@@ -18,6 +18,7 @@ public class PlayerController : MonoBehaviour
     private GameManager gameManager;
     private Animator playerAnim;
     public int pointValue;
+    private bool isMoving;
 
     // Start is called before the first frame update
     void Start()
@@ -62,6 +63,7 @@ public class PlayerController : MonoBehaviour
             if (isOnGround)
             {
                 playerAnim.SetFloat("speed", 2);
+                isMoving = true;
             }
             
         }
@@ -69,6 +71,7 @@ public class PlayerController : MonoBehaviour
         else
         {
             playerAnim.SetFloat("speed", 1);
+            isMoving = false;
         }
 
         // Prevents player from moving out of bounds left or right
@@ -76,28 +79,67 @@ public class PlayerController : MonoBehaviour
         if (transform.position.x < leftRange)
         {
             transform.position = new Vector3(leftRange, transform.position.y, transform.position.z);
+            
         }
 
         if (transform.position.x > rightRange)
         {
             transform.position = new Vector3(rightRange, transform.position.y, transform.position.z);
+            
         }
+
 
         // Allows player to fire bullets from their parasol in the direction they're facing
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            if (!spi.flipX)
+            if (!isOnGround)
             {
-                Instantiate(projectilePrefab, (transform.position + new Vector3(1.62f, -0.2848748f, 0)), projectilePrefab.transform.rotation);
+                if (!spi.flipX)
+                {
+                    Instantiate(projectilePrefab, (transform.position + new Vector3(1.62f, -0.2848748f, 0)), projectilePrefab.transform.rotation);
+                    playerAnim.SetTrigger("isShooting2");
+                }
+
+                else
+                {
+                    Instantiate(leftProjectilePrefab, (transform.position + new Vector3(-1.62f, -0.2848748f, 0)), projectilePrefab.transform.rotation);
+                    playerAnim.SetTrigger("isShooting2");
+                }
+            }
+
+            if (isMoving)
+            {
+                if (!spi.flipX)
+                {
+                    Instantiate(projectilePrefab, (transform.position + new Vector3(1.62f, -0.2848748f, 0)), projectilePrefab.transform.rotation);
+                    playerAnim.SetTrigger("isShooting3");
+                }
+
+                else
+                {
+                    Instantiate(leftProjectilePrefab, (transform.position + new Vector3(-1.62f, -0.2848748f, 0)), projectilePrefab.transform.rotation);
+                    playerAnim.SetTrigger("isShooting3");
+                }
             }
 
             else
             {
-                Instantiate(leftProjectilePrefab, (transform.position + new Vector3(-1.62f, -0.2848748f, 0)), projectilePrefab.transform.rotation);
+                if (!spi.flipX)
+                {
+                    Instantiate(projectilePrefab, (transform.position + new Vector3(1.62f, -0.2848748f, 0)), projectilePrefab.transform.rotation);
+                    playerAnim.SetTrigger("isShooting1");
+                }
+
+                else
+                {
+                    Instantiate(leftProjectilePrefab, (transform.position + new Vector3(-1.62f, -0.2848748f, 0)), projectilePrefab.transform.rotation);
+                    playerAnim.SetTrigger("isShooting1");
+                }
             }
 
         }
+
 
         if (!isOnGround)
         {
@@ -111,7 +153,7 @@ public class PlayerController : MonoBehaviour
     public void OnCollisionEnter(Collision collision)
     {
 
-        if (collision.gameObject.CompareTag("Island") || collision.gameObject.CompareTag("Ground"))
+        if (collision.gameObject.CompareTag("Ground") || collision.gameObject.CompareTag("Island"))
         {
             isOnGround = true;
         }
@@ -145,5 +187,7 @@ public class PlayerController : MonoBehaviour
         {
             gameManager.SapphireTracker(pointValue);
         }
+
+        
     }
 }
