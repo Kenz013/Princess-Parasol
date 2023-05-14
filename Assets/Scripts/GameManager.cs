@@ -30,6 +30,7 @@ public class GameManager : MonoBehaviour
     private bool paused;
     private bool inventoryUp;
     public GameObject inventoryScreen;
+    public GameObject playerController;
 
     // Start is called before the first frame update
     void Start()
@@ -44,6 +45,7 @@ public class GameManager : MonoBehaviour
         musicBox.gameObject.SetActive(true);
         spawnManager.gameObject.SetActive(true);
         gameOverScreen.gameObject.SetActive(false);
+        playerController.gameObject.SetActive(true);
         ruby = 0;
         emerald = 0;
         sapphire = 0;

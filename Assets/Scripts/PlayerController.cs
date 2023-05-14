@@ -31,38 +31,44 @@ public class PlayerController : MonoBehaviour
 
     }
 
+    void FixedUpdate()
+    {
+        Vector3 m_Input = new Vector3(Input.GetAxis("Horizontal"), 0, 0);
+        playerRb.MovePosition(transform.position + m_Input * Time.deltaTime * speed);
+    }
+
     // Update is called once per frame
     void Update()
     {
 
-        horizontalInput = Input.GetAxis("Horizontal");
-        transform.Translate(Vector3.right * Time.deltaTime * speed * horizontalInput);
+        //horizontalInput = Input.GetAxis("Horizontal");
+        //transform.Translate(Vector3.right * Time.deltaTime * speed * horizontalInput);
 
         // Allows player to jump (but not double jump), as well as move left and right & flips the sprite respectively
 
-        if (Input.GetKeyDown(KeyCode.UpArrow) && isOnGround)
+        if (Input.GetKeyDown(KeyCode.UpArrow) && isOnGround || Input.GetKey(KeyCode.W) && isOnGround)
         {
             playerRb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
             isOnGround = false;
         }
 
-        if (Input.GetKeyDown(KeyCode.LeftArrow))
+        if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A))
         {
             spi.flipX = true;
         }
  
-        if (Input.GetKeyDown(KeyCode.RightArrow))
+        if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKey(KeyCode.D))
         {
             spi.flipX = false;
         }
 
         // Plays walking animation
 
-        if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.LeftArrow))
+        if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D))
         {
             if (isOnGround)
             {
-                playerAnim.SetFloat("speed", 2);
+                playerAnim.SetFloat("speed", 1);
                 isMoving = true;
             }
             
@@ -70,7 +76,7 @@ public class PlayerController : MonoBehaviour
 
         else
         {
-            playerAnim.SetFloat("speed", 1);
+            playerAnim.SetFloat("speed", 0);
             isMoving = false;
         }
 
@@ -123,7 +129,7 @@ public class PlayerController : MonoBehaviour
                 }
             }
 
-            else
+            if (!isMoving && isOnGround)
             {
                 if (!spi.flipX)
                 {
@@ -141,9 +147,14 @@ public class PlayerController : MonoBehaviour
         }
 
 
-        if (!isOnGround)
+        if (!isOnGround || !isOnGround && isMoving)
         {
-            playerAnim.SetFloat("speed", 0);
+            playerAnim.SetBool("isJumping", true);
+        }
+
+        else 
+        {
+            playerAnim.SetBool("isJumping", false);
         }
 
     }
