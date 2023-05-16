@@ -34,7 +34,10 @@ public class PlayerController : MonoBehaviour
     void FixedUpdate()
     {
         Vector3 m_Input = new Vector3(Input.GetAxis("Horizontal"), 0, 0);
-        playerRb.MovePosition(transform.position + m_Input * Time.deltaTime * speed);
+        //playerRb.MovePosition(transform.position + m_Input * Time.deltaTime * speed);
+        Vector3 velocityTemp = playerRb.velocity;
+        velocityTemp.x = m_Input.x * speed;
+        playerRb.velocity = velocityTemp;
     }
 
     // Update is called once per frame
@@ -170,6 +173,14 @@ public class PlayerController : MonoBehaviour
         }
 
         else
+        {
+            isOnGround = false;
+        }
+    }
+
+    public void OnCollisionExit(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Ground") || collision.gameObject.CompareTag("Island"))
         {
             isOnGround = false;
         }
